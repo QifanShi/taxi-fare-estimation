@@ -1,0 +1,21 @@
+每个轨迹点是39个字节。字节顺序为big_endian
+数据内容依次如下：
+rec = ByteBuffer.allocate(39);
+while (fc.read(rec) == 39) {
+  float lo = rec.getFloat();// 4个字节float型经度 121.3241
+  float la = rec.getFloat();// 4个字节float型纬度 31.5342
+  long timestamp = rec.getLong();// 8个字节的long型时间戳 the difference, measured in milliseconds, between the current time and midnight, January 1, 1970 UTC.
+  int statuse = rec.get();// 1个字节车辆状态，由空重车状态和报警组成，高5位表示报警类型值，低3位表示车辆空重车状态
+  int status = statuse & (byte) 0x07;  //0表示空车，1表示重车
+  int alarmType = statuse >>> 3;	//报警类型
+  short speed = rec.getShort();// 2个字节车辆速度
+  short dir = rec.getShort();// 2个字节车头行进方向
+  mileage = rec.getInt();// 4个字节车辆行驶里程，根据终端上报记录，该值由终端里程传感器决定，默认为0
+  tmp1 = rec.getShort();//2个字节车内温度，允许6个温度上传，依次排序。该值由终端所接的温度传感器决定，默认为-128
+  tmp2 = rec.getShort();//
+  tmp3 = rec.getShort();//
+  tmp4 = rec.getShort();//
+  tmp5 = rec.getShort();//
+  tmp6 = rec.getShort();//
+  oilCapacity = rec.getShort();//车辆当前油量，由终端接入的传感器决定，默认为0
+}
