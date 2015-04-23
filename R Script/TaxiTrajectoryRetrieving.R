@@ -36,9 +36,9 @@ sample <- mongo.find.one(mongo, namespace)
 ## view sample
 (sample)
 
-## create query with a certain date of 2009-09-11
+## create query with a certain date of 2009-09-8
 ## also only select those records with customer
-query <- mongo.bson.from.list(list("date"="2009-09-11", "occupy"=1))
+query <- mongo.bson.from.list(list("date"="2009-09-08")
 
 fields <- mongo.bson.buffer.create()
 
@@ -76,7 +76,7 @@ done <- mongo.cursor.destroy(cursor)
 (taxi.data)
 
 ## Export to a CSV file
-write.csv(taxi.data, file = "C:/Users/Qifan/Documents/CMU/MIB/2009-09-11.csv")
+write.csv(taxi.data, file = "C:/Users/Qifan/Documents/GitHub/taxi-fare-estimation/Data/taxi-gps-2009-09-08.csv")
 
 ## close connection with MongoDB
 mango.disconnect(mongo)
