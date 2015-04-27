@@ -33,21 +33,32 @@ for(i in 1:(nrow(trip.data) - 1)){
 }
 
 ## build a social network graph
-g <- graph.adjacency(traj_graph, weighted=T, mode = "directed")
-g <- simplify(g)
-##V(g)$label <- V(g)$name
-V(g)$degree <- degree(g)
-set.seed(3952)
-layout1 <- layout.fruchterman.reingold(g)
-plot(g, layout=layout1)
-plot(g, layout=layout.kamada.kawai)
+mode(traj_graph) <- "numeric"
+g <- graph.adjacency(traj_graph, weighted=TRUE, mode = "directed")
 
-V(g)$label.cex <- 2.2 * V(g)$degree / max(V(g)$degree)+ .2
+
+nodeId <- vector()
+for(i in 1: length(V(g))){
+  V(g)$label <- V(g)[i]$name
+}
+
+V(g)$label <- nodeId
+## Exclude nodes which do not have any traffic
+bad.nodes <- V(g)[degree(g) == 0] # low-degree nodes
+g <- delete.vertices(g, bad.nodes) # f is the new network
+
+
+V(g)$degree <- degree(g)
+
+V(g)$size <-  8 + log(V(g)$degree) * 3
+V(g)$label.cex <- 2.2 * V(g)$degree / max(V(g)$degree)+ .4
 V(g)$label.color <- rgb(0, 0, .2, .8)
 V(g)$frame.color <- NA
 egam <- (log(E(g)$weight)+.4) / max(log(E(g)$weight)+.4)
 E(g)$color <- rgb(.5, .5, 0, egam)
 E(g)$width <- egam
+E(g)$arrow <- egam
+
 # plot the graph in layout1
-plot(g, layout=layout1)
+plot(g, layout=layout.fruchterman.reingold)
 
