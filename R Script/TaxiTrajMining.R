@@ -1,5 +1,7 @@
 library(igraph)
 
+source("./R Script/Util/plotNetwork.R")
+
 ## set west-southern corner as origion (0,0)
 ## set west and north boundry
 w_bound <- 113.756905
@@ -15,13 +17,17 @@ map_graph <- matrix( c(1:60), nrow = 6, ncol = 10, byrow= TRUE)
 ## create a directed graph using matrix with 60 columns and 60 rows
 traj_graph <- matrix(0, nrow = 60, ncol = 60)
 
+## for windows
+##setwd("C:/Users/Qifan/Documents/GitHub/taxi-fare-estimation/")
 trip.data <- read.csv(file="./data/taxiTraj-trip-2009-09-11.csv")
+##trip.data <- read.csv(file="./data/taxiTraj-trip-2009-09-11-hour-0-1.csv")
+
 ##head(trip.data)
 
-for(i in 1:(nrow(trip.data) - 1)){
+for(i in 1:(nrow(trip.data))){
   ## calculate start node
-  s_x <- round((trip.data$or_lon[i] - w_bound) / lon_step, digits = 0)
-  s_y <- 6 - round((trip.data$or_lat[i] - s_bound) / lat_step, digits = 0)
+  s_x <- trunc((trip.data$or_lon[i] - w_bound) / lon_step, digits = 0) + 1 
+  s_y <- 6 - trunc((trip.data$or_lat[i] - s_bound) / lat_step, digits = 0)
   s_node <- map_graph[s_y, s_x]
   
   ## calculate end node
@@ -36,29 +42,26 @@ for(i in 1:(nrow(trip.data) - 1)){
 mode(traj_graph) <- "numeric"
 g <- graph.adjacency(traj_graph, weighted=TRUE, mode = "directed")
 
-
+## give label to each nodes, from 1 to 60
 nodeId <- vector()
+
 for(i in 1: length(V(g))){
-  V(g)$label <- V(g)[i]$name
+  nodeId[i] <- i;
 }
 
 V(g)$label <- nodeId
 ## Exclude nodes which do not have any traffic
-bad.nodes <- V(g)[degree(g) == 0] # low-degree nodes
-g <- delete.vertices(g, bad.nodes) # f is the new network
+bad.nodes <- V(g)[degree(g) == 0] # mark unconnected nodes as bad nodes
+g <- delete.vertices(g, bad.nodes) 
 
+## remove loops
+g <- simplify(g)
 
 V(g)$degree <- degree(g)
 
-V(g)$size <-  8 + log(V(g)$degree) * 3
-V(g)$label.cex <- 2.2 * V(g)$degree / max(V(g)$degree)+ .4
-V(g)$label.color <- rgb(0, 0, .2, .8)
-V(g)$frame.color <- NA
-egam <- (log(E(g)$weight)+.4) / max(log(E(g)$weight)+.4)
-E(g)$color <- rgb(.5, .5, 0, egam)
-E(g)$width <- egam
-E(g)$arrow <- egam
+##plotNetwork(g, "Test", "./Image/Taxi_SNA.pdf", width=15, height=15)
+##plotNetwork(g, "Test", "./Image/Taxi_SNA_Simplify.pdf", width=15, height=15)
 
-# plot the graph in layout1
-plot(g, layout=layout.fruchterman.reingold)
+##plotNetwork(g, "Test", "./Image/Taxi_SNA_hour_0_1.pdf", width=15, height=15)
+##plotNetwork(g, "Test", "./Image/Taxi_SNA_Simplify_hour_0_1.pdf", width=15, height=15)
 

@@ -8,10 +8,10 @@ library(rgdal)
 library(rgeos)
 # library(rmongodb)
 
-source("./GitHub/taxi-fare-estimation/R Script/Util/fivethirtyeight_theme.R")
+source("./R Script/Util/fivethirtyeight_theme.R")
 
 ## Load all taxi GPS traces on Sept. 11, 2009 when occupied
-taxi.data <- read.csv(file="./GitHub/taxi-fare-estimation/Data/taxi-gps-2009-09-08.csv", header=TRUE)
+taxi.data <- read.csv(file="./Data/filtered-taxiTraj-2009-09-11.csv", header=TRUE)
 
 # ## Login credentials
 # host <- "heinz-tjle.heinz.cmu.edu"
@@ -66,7 +66,7 @@ taxi.data <- read.csv(file="./GitHub/taxi-fare-estimation/Data/taxi-gps-2009-09-
 ## Compute the duration between each timestamp
 duration <- vector()
 trip_indicator <- vector()
-threshold <- 15*60 # seconds
+threshold <- 5*60 # seconds
 
 ## Create a progress bar
 progress.bar <- create_progress_bar("text")
@@ -154,16 +154,16 @@ quiet <- list(x_quiet, y_quiet)
 ## We can check it by proj4string(sz_bou). We thus need to assign a CRS
 ## (coordinate reference system) to the object before we can plot it.
 ## Here we use the WGS84 standard (the World Geodetic System proposed in 1984)
-sz_bou <- readOGR(dsn="./GitHub/taxi-fare-estimation/Shp", layer="sz_bou")
+sz_bou <- readOGR(dsn="./Shp", layer="sz_bou")
 proj4string(sz_bou) <- CRS("+init=epsg:4326")
 
-sz_road <- readOGR(dsn="./GitHub/taxi-fare-estimation/Shp", layer="sz_road")
+sz_road <- readOGR(dsn="./Shp", layer="sz_road")
 proj4string(sz_road) <- CRS("+init=epsg:4326")
 
-sz_veg <- readOGR(dsn="./GitHub/taxi-fare-estimation/Shp", layer="sz_veg")
+sz_veg <- readOGR(dsn="./Shp", layer="sz_veg")
 proj4string(sz_veg) <- CRS("+init=epsg:4326")
 
-sz_wat <- readOGR(dsn="./GitHub/taxi-fare-estimation/Shp", layer="sz_wat")
+sz_wat <- readOGR(dsn="./Shp", layer="sz_wat")
 proj4string(sz_wat) <- CRS("+init=epsg:4326")
 
 ## Convert shapefiles into data frames so that they can be plotted using ggplot
@@ -175,7 +175,7 @@ sz_wat.data <- fortify(sz_wat)
 ## Plot the shapfiles using ggplot
 shenzhen <- ggplot(data=sz_bou.data, aes(x=long, y=lat,
                                          group=group)) + geom_polygon(fill="lightblue") +
-  ggtitle("Map of Shenzhen + All Taxi OD Pairs on 09/08/2009")
+  ggtitle("Map of Shenzhen + All Taxi OD Pairs on 09/11/2009")
 shenzhen <- shenzhen + geom_polygon(data=sz_wat.data,
                                     aes(x=long, y=lat, group=group),
                                     fill="blue", alpha=0.75)
@@ -192,4 +192,4 @@ shenzhen.od <- shenzhen + geom_segment(data=od.data, aes(x=or_lon, y=or_lat,
                                        alpha=0.8, col="red") + quiet + coord_equal() +
   fivethirtyeight_theme()
 print(shenzhen.od)
-ggsave(filename="./GitHub/taxi-fare-estimation/Image/20090908.png", scale = 3, dpi = 400)
+ggsave(filename="./Image/20090911.png", scale = 3, dpi = 400)
