@@ -1,3 +1,5 @@
+## Author Truc Viet 'Joe' Le at tjle@andrew.cmu.edu
+
 fivethirtyeight_theme <- function() {
   ## Fancy theme for our plot so that it resembles those on fivethirtyeight.com
   library(RColorBrewer)

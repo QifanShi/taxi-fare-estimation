@@ -1,3 +1,6 @@
+## Author Qifan Shi
+## Reference: : https://github.com/vietexob/mobile-intelligence/
+
 rm(list = ls())
 
 library(plyr)
@@ -9,11 +12,11 @@ library(rgeos)
 
 ## getwd()
 ## setwd("/Users/shiqifanshiqifan/Documents/CMU/S15/MIB/taxi-fare-estimation/")
-
+## setwd("C:/Users/Qifan/Documents/GitHub/taxi-fare-estimation/")
 ## Load all taxi GPS traces on Sept. 11, 2009 when occupied
 taxi.data <- read.csv(file="./data/filtered-taxiTraj-2009-09-11.csv", header=TRUE)
 
-## select only data bwtween 0 - 1
+## select only data bwtween 1 - 2
 taxi.data <- taxi.data[taxi.data$hour == 1,]
 
 ## Compute the duration between each timestamp

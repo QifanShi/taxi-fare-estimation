@@ -1,4 +1,4 @@
-rm(list = ls())
+## Author Truc Viet 'Joe' Le at tjle@andrew.cmu.edu
 
 library(plyr)
 library(ggplot2)
@@ -8,11 +8,10 @@ library(rgeos)
 # library(rmongodb)
 
 ## getwd()
-## setwd("/Users/shiqifanshiqifan/Documents/CMU/S15/MIB/taxi-fare-estimation/")
+## For Mac. setwd("/Users/shiqifanshiqifan/Documents/CMU/S15/MIB/taxi-fare-estimation/")
 
 ## Load all taxi GPS traces on Sept. 11, 2009 when occupied
 taxi.data <- read.csv(file="./data/filtered-taxiTraj-2009-09-11.csv", header=TRUE)
-
 
 
 ## Compute the duration between each timestamp

@@ -1,3 +1,6 @@
+## Author Qifan Shi
+## Reference: : https://github.com/vietexob/mobile-intelligence/
+
 ## load libraries
 library(rmongodb)
 library(plyr)
@@ -24,7 +27,7 @@ mongo.count(mongo, namespace)
 ## get a sample and view it
 (sample <- mongo.find.one(mongo, namespace))
 
-query <- mongo.bson.from.list(list("begin_date"="9/1/2009", "end_date"="9/1/2009"))
+query <- mongo.bson.from.list(list("begin_date"="9/11/2009", "end_date"="9/11/2009"))
 
 fields <- mongo.bson.buffer.create()
 
@@ -72,19 +75,4 @@ write.csv(income.data, file = "C:/Users/Qifan/Documents/CMU/MIB/taxiIncome-2009-
 
 ## close connection
 mongo.disconnect(mongo)
-
-t1.data <- income.data[income.data$taxi_type == '1',]
-
-library(data.table)
-income_dt <- data.table(t1.data)
-avg_in <- income_dt[, mean(as.numeric(end_price)), by = taxi_no]
-total_in <- income_dt[, sum(as.numeric(end_price)), by = taxi_no]
-
-income_ana <- cbind(avg_in, total_in$V1)
-
-head(income_ana)
-
-colnames(income_ana) <- c("taxi_no", "avg_fare_per_trip", "total_fare")
-
-write.csv(income_ana, file = "C:/Users/Qifan/Documents/CMU/MIB/taxiIncome-2009-09-11-ana.csv")
 

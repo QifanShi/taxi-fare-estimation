@@ -1,3 +1,6 @@
+## Author Qifan Shi
+## Reference: : https://github.com/vietexob/mobile-intelligence/
+
 ## import from a CSV file
 taxi.data <- read.csv("C:/Users/Qifan/Documents/CMU/MIB/2009-09-11.csv")
 
@@ -39,5 +42,3 @@ print(taxi.loc.map)
 ## save plotted image
 ggsave(taxi.loc.map, file="C:/Users/Qifan/Documents/CMU/MIB/myPlot8.png")
 
-
-mango.disconnect(mongo)

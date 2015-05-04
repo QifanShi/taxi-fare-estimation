@@ -1,3 +1,6 @@
+## Author Qifan Shi
+## Reference: : https://github.com/vietexob/mobile-intelligence/
+
 rm(list = ls())
 
 library(plyr)

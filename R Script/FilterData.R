@@ -1,3 +1,6 @@
+## Author Qifan Shi
+## Reference: : https://github.com/vietexob/mobile-intelligence/
+
 ## get gps data
 taxiTraj <- read.csv("C:/Users/Qifan/Documents/CMU/MIB/taxi_gps_2009_09_11.csv")
 

@@ -1,4 +1,5 @@
-## Author: Truc Viet 'Joe' Le at tjle@andrew.cmu.edu
+## Author Qifan Shi
+## Reference: : https://github.com/vietexob/mobile-intelligence/
 
 ## This function plots the input igraph object 'g' and saves it as a PDF file (if
 ## a non-empty filename is given).
@@ -15,8 +16,8 @@ plotNetwork <- function(g, mainStr="Untitled Graph", filename="", edgeWeight.the
     summ.edgeWeight <- summary(E(g)$weight)
     edgeWeight.theta <- exp(1) * summ.edgeWeight[3] # the median
   }
-  V(g)$size <-  3 * V(g)$degree / max(V(g)$degree)+ 3
-  V(g)$label.cex <- 1.5 * V(g)$degree / max(V(g)$degree)+ .4
+  V(g)$size <-  3 * V(g)$degree / max(V(g)$degree)+ 3 ## change node size
+  V(g)$label.cex <- 1.5 * V(g)$degree / max(V(g)$degree)+ .4 ## change label size
   E(g)$color <- ifelse(E(g)$weight >= edgeWeight.theta, 'darkorange', 'azure4')
   E(g)$width <- E(g)$weight / weight.factor
   E(g)$arrow.width <- E(g)$width / 2

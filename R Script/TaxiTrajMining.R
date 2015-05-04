@@ -1,3 +1,6 @@
+## Author Qifan Shi
+## Reference: : https://github.com/vietexob/mobile-intelligence/
+
 library(igraph)
 
 source("./R Script/Util/plotNetwork.R")
@@ -19,8 +22,8 @@ traj_graph <- matrix(0, nrow = 60, ncol = 60)
 
 ## for windows
 ##setwd("C:/Users/Qifan/Documents/GitHub/taxi-fare-estimation/")
-trip.data <- read.csv(file="./data/taxiTraj-trip-2009-09-11.csv")
-##trip.data <- read.csv(file="./data/taxiTraj-trip-2009-09-11-hour-0-1.csv")
+##trip.data <- read.csv(file="./data/taxiTraj-trip-2009-09-11.csv")
+trip.data <- read.csv(file="./data/taxiTraj-trip-2009-09-11-hour-0-1.csv")
 
 ##head(trip.data)
 
@@ -54,14 +57,14 @@ V(g)$label <- nodeId
 bad.nodes <- V(g)[degree(g) == 0] # mark unconnected nodes as bad nodes
 g <- delete.vertices(g, bad.nodes) 
 
+V(g)$degree <- degree(g)
+
+plotNetwork(g, "Test", "./Image/Taxi_SNA.pdf", width=15, height=15)
+plotNetwork(g, "Test", "./Image/Taxi_SNA_Simplify.pdf", width=15, height=15)
+
 ## remove loops
 g <- simplify(g)
 
-V(g)$degree <- degree(g)
-
-##plotNetwork(g, "Test", "./Image/Taxi_SNA.pdf", width=15, height=15)
-##plotNetwork(g, "Test", "./Image/Taxi_SNA_Simplify.pdf", width=15, height=15)
-
-##plotNetwork(g, "Test", "./Image/Taxi_SNA_hour_0_1.pdf", width=15, height=15)
-##plotNetwork(g, "Test", "./Image/Taxi_SNA_Simplify_hour_0_1.pdf", width=15, height=15)
+plotNetwork(g, "Test", "./Image/Taxi_SNA_hour_0_1_.pdf", width=15, height=15)
+plotNetwork(g, "Test", "./Image/Taxi_SNA_Simplify_hour_0_1.pdf", width=15, height=15)
 

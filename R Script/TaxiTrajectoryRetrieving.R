@@ -1,3 +1,6 @@
+## Author Qifan Shi
+## Reference: : https://github.com/vietexob/mobile-intelligence/
+
 ## load libraries
 library(rmongodb)
 library(plyr)
@@ -6,7 +9,6 @@ host <- "heinz-tjle.heinz.cmu.edu"
 username <- "student"
 password <- "helloWorld"
 db <- "admin"
-
 
 mongo <- mongo.create(host = host, db = db, username = username, password = password)
 mongo.is.connected(mongo)
